@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Base64 En/Decoder</title>
+        <script type="text/javascript">
+            const encode = text => {
+                return btoa(unescape(encodeURIComponent(text)));
+            };
+            const decode = base64 => {
+                return decodeURIComponent(escape(atob(base64)));
+            };
+            const copyForm = id => {
+                const ele = document.getElementById(id);
+                ele.select();
+                document.execCommand("copy");
+            };
+            const exportBase64 = () => {
+                const text = document.getElementById("text").value;
+                const base64 = encode(text)
+                const base64Form = document.getElementById("base64");
+                base64Form.value = base64;
+            };
+            const exportText = () => {
+                const base64 = document.getElementById("base64").value;
+                const text = decode(base64)
+                const textForm = document.getElementById("text");
+                textForm.value = text;
+            };
+        </script>
+        <style type="text/css">
+            body {
+                background-color: #252C31;
+            }
+            div.main {
+                height: 100%;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            div.text {
+                position: relative;
+                height: 47%;
+            }
+            div.buttons {
+                height: 6%;
+                display: flex;
+                justify-content: space-between;
+            }
+            textarea {
+                font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+                font-size: 16px;
+                line-height: 140%;
+                border-style: none;
+                width: 100%;
+                height: 100%;
+                resize: none;
+                color: navajowhite;
+                background-color: #303C45;
+                padding: 15px;
+            }
+            button {
+                margin: 5px;
+                width: 3em;
+                font-size: 16px;
+                position: relative;
+                display: inline-block;
+                text-decoration: none;
+                background: #303C45;
+                color: navajowhite;
+                font-weight: bold;
+                border-radius: 2px;
+            }
+            button.convert {
+                font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+                border: none;
+            }
+            button.convert:active {
+                margin-top: 8px;
+                margin-bottom: 8px;
+            }
+            button.decode {
+                margin-left: 10vw;
+            }
+            button.encode {
+                margin-right: 10vw;
+            }
+            button.copy {
+                height: 2em;
+                width: 5em;
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                border: solid 2px navajowhite;
+            }
+            button.copy:active {
+                height: 1.8em;
+            }
+            button:hover {
+                background-color: navajowhite;
+                border-color: navajowhite;
+                color: #303C45;
+            }
+        </style>
+	</head>
+    <body>
+        <div class="main">
+            <div class="text">
+                <textarea id="text" placeholder="ここにBase64に変換したいテキストを入力してください" spellcheck="false"
+                 onkeydown="((e) => {if (e.ctrlKey && e.key == 'Enter') exportBase64()})(event)"></textarea>
+                <button class="copy" onclick="copy('text')">Copy</button>
+            </div>
+            <div class="buttons">
+                <button class="decode convert" title="Decode" onclick="exportText()">↑</button>
+                <button class="encode convert" title="Encode" onclick="exportBase64()">↓</button>
+            </div>
+            <div class="text">
+                <textarea id="base64" placeholder="ここにBase64に変換された文字列が出力されます" spellcheck="false"
+                 onkeydown="((e) => {if (e.ctrlKey && e.key == 'Enter') exportText()})(event)"></textarea>
+                <button class="copy" onclick="copyForm('base64')">Copy</button>
+            </div>
+        </div>
+    </body>
+</html>
